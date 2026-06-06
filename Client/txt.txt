@@ -1,0 +1,119 @@
+State management and components are related, but they solve completely different problems in an app.
+
+1. What is a Component?
+
+A component is a building block of UI.
+
+It is responsible for:
+
+Rendering UI (HTML/JSX)
+Handling user interactions
+Managing small/local state
+Being reusable
+
+Example:
+
+function Button() {
+  return <button>Click me</button>;
+}
+
+👉 A component = UI + behavior
+
+
+2. What is State Management?
+
+State management is a system to store and manage data across the whole app.
+
+It is responsible for:
+
+Sharing data between components
+Keeping data consistent
+Updating UI when data changes
+Managing global or server state
+
+Example:
+
+store.user.name
+store.cart.items
+
+👉 State management = data brain of the app
+
+
+
+===========Prop Drilling=======
+What is Prop Drilling?
+
+Prop drilling is when you pass data from a parent component to a deeply nested child component through multiple layers of components that don’t actually need that data.
+
+📦 Simple idea
+
+You pass props like this:
+
+App → Page → Layout → Sidebar → UserProfile
+
+Even though only UserProfile needs the data.
+
+All intermediate components just pass it along.
+
+Backend Storage = Database
+Frontend Storage = stagemanagement (store)
+
+Redux is one tool used for state management --- old version
+In Redux, we have to write a many configuration, as compared to redux tool kit
+Redux toolkit is one tool used for state management --- new version
+
+
+=====SIMPLE VISUAL=====
+Redux Toolkit (Store + Logic)
+           ↑
+           ↓
+     React Redux (bridge)
+           ↑
+           ↓
+       Home.jsx (UI)
+
+
+Redux Toolkit: Create and manages the store + state Logic
+It gives us: Store, slices, reducers, action
+So Redux Toolkit = brain + data system.
+
+React Redux: Connects reacts Components(like home.jsx) to the redux store
+
+
+React redux is similar to ORM / ODM
+
+
+=============================================================
+Slice → defines logic
+   ↓
+store.ts → combines slices
+   ↓
+App → uses store via Provider
+   ↓
+Components → dispatch actions
+
+
+=====Note=====:
+Why we must combined slices in store.ts?
+Because Redux does not understand slices by themselves -- it only understand a single store object
+
+A slice is just a piece of logic. The store is what actually runs and manages everything.
+
+======useDispatch() and useSelector()=========
+This hooks are given by react-redux, not by react
+Redux Store
+------------
+count: 5
+user: "John"
+theme: "dark"
+
+React components need to:
+1. Read data from the store
+2. Update data in the store
+That's where useSelector and useDispatch come in.
+
+useDispatch() ra useSelector vaneko type less function ho. but in typescript, we have to provide a custom type for this function.
+
+===Frontend ma aako token lai hamile 3 ways ma store garna milxa tyo ho: 1. Redux toolkit
+                    2. localStorage
+                    3. cookie

@@ -1,0 +1,48 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { User } from "./types";
+
+
+const userInfo: User = {
+    name : "milan",
+    age: 20
+}
+
+// Store vaneko euta ghar ho....Slice vaneko tyo gharko kotha ho...ani kotha banauna lai hami createSlice() function use garxum...ani kotha banauda kotha ko nam k rakhney vanera name: "kothakonam" ani suruma tyo kotha ma k rakhney vanera initalState: {"ya bata rakhney"}.
+const userSlice = createSlice({
+    name : "user", // Identifies the slice
+    initialState: userInfo // Defines the starting state for that slice
+,
+    reducers: { //It is an object containg functions that describe how the state should change when action are dispatched..// Each reducer function: Receives the current state, Optionally receives an action, update the state
+
+    /*
+    Reducer vaneko yedi tyo kotha(store) ma kei halnu xa or nikalnu xa vane reducer use garinxa
+     */
+        setName(state: User, action: PayloadAction<string>){
+            state.name = "haha"
+            state.name = action.payload;
+        },
+        setAge(state: User, action: PayloadAction<User>){
+            state.age = 12;
+            // state.age = action.payload.age
+        }
+    }
+
+})
+//Elephant analog
+//Reducer vaneko dekhauney dat matra ho but actual kam xai action le garxa
+//actions: Actaul kam action le garxa
+
+//playload means the actual data being carried or transmitted by somethings
+
+//Yedi reducer xaina vaney tesko action ni hudaina
+
+//action ko nam k xa reducer ko nam ni same tei hunxa
+
+//Poila redux ma reducer banauda, action ni manaully lekhnu parthyo but in redux toolkit, action xai aafai banai dinxa yedi reducer banaunu sakim vaney
+
+// const setName = userSlice.actions.setName
+// const setAge = userSlice.actions.setAge
+//In destructure way
+export const {setName, setAge} = userSlice.actions
+
+export default userSlice.reducer

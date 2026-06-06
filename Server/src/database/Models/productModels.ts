@@ -1,0 +1,68 @@
+import{Table, Column, Model, DataType, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import Category from './categoryModel';
+
+
+@Table({
+    tableName: "Products",
+    modelName: "Product",
+    timestamps: true
+})
+
+class Product extends Model{
+    @Column({
+        primaryKey: true,
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4
+    })
+    declare id: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare productName: string;
+
+    @Column({
+        type: DataType.TEXT
+    })
+    declare productDescription: string
+
+    @Column({
+        type: DataType.FLOAT,
+        allowNull: false
+    })
+    declare productPrice: number
+
+    @Column({
+        type: DataType.INTEGER
+    })
+    declare productTotalStocks : number
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    declare productDiscount: number
+
+    @Column({
+        type: DataType.STRING
+    })
+    declare productImageUrl : string
+
+    //Foreign Key
+    @ForeignKey(() => Category)
+    @Column({
+    type: DataType.UUID
+    })
+    declare categoryId: string
+
+    //Relation
+    @BelongsTo(()=> Category)
+    declare Category: Category
+
+
+}
+
+
+export default Product
+

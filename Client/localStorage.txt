@@ -1,0 +1,22 @@
+=============Local Storage=====================
+localStorage is a browser feature that allows you to store data in the user's browser so it remains available even after the page is refreshed or browser is closed and reopened.
+
+Key Characteristics:
+-Stores data as key-value pairs.
+-Values are stored as strings.
+-Data persists until it is explicitly removed.
+-Storage is specific to a website/domain
+
+//save data:
+localStorage.setItem("username", "John");
+
+
+The major differences between localStorage and cookies are:
+
+Feature	        localStorage	            Cookies
+Storage Limit	About 5–10 MB	            About 4 KB
+Sent to Server	❌ No	            ✅ Automatically with every HTTP request
+Expiration	Stays until manually removed	Can expire automatically
+Performance	   Faster for storing larger data	Slower if many cookies because they're sent with requests
+Security Options	No HttpOnly protection	Can use HttpOnly, Secure, SameSite
+Main Use	User preferences, cart, app data	Sessions, authentication, tracking

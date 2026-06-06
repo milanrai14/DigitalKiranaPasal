@@ -1,0 +1,4 @@
+=======Asychronous Thunk ============
+An asychronous thunk usually refers ti a concept from redux (especially Redux Thunk) where a "thunk" is a function that delays work and can handle async operation like API calls.
+
+An asychronous thunk ia a function that returns another function, and that inner function performs async work (like fetching data) before dispatching actions

@@ -1,0 +1,21 @@
+dispatch() → sends an action (or thunk) to Redux.
+Store → receives actions and updates state through reducers.
+
+createAsyncThunk → is commonly used to make async operations such as API calls to a server.
+
+After the server responds, createAsyncThunk dispatches actions like pending, fulfilled, or rejected, and the store updates accordingly.
+
+
+dispatch(fetchUsers())
+        ↓
+createAsyncThunk runs
+        ↓
+API request sent to server
+        ↓
+Server returns data
+        ↓
+fulfilled action dispatched
+        ↓
+Store updated
+        ↓
+UI re-renders
