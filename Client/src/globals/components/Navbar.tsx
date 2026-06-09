@@ -58,7 +58,7 @@ function Navbar() {
               <span className="mr-[10px]">
                 {" "}
                 <Link to="/my-cart">
-                  {/* Cart <sup>{items.length > 0 ? items.length : 0}</sup>{" "} */}
+                  Cart <sup></sup>
                 </Link>
               </span>
               <Link to="/logout">
