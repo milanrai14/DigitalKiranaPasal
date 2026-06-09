@@ -4,6 +4,8 @@ import Navbar from "../../globals/components/Navbar";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchSingleProduct } from "../../store/productSlice";
 import { Status } from "../../globals/types/type";
+import { addToCart } from "../../store/cartSlice";
+import { setStatus } from "../../store/authSlice";
 
 function SingleProduct() {
   const { id } = useParams();
@@ -28,6 +30,16 @@ function SingleProduct() {
     return <h1>Product not found</h1>;
   }
 
+  const handleAddToCart = ()=>{
+    if(id){
+      dispatch(addToCart(id))
+      dispatch(setStatus(Status.SUCCESS))
+    } else {
+      dispatch(setStatus(Status.ERROR))
+
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -46,7 +58,7 @@ function SingleProduct() {
 
               <div className="flex -mx-2 mb-4">
                 <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full">
+                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full" onClick={handleAddToCart}>
                     Add to Cart
                   </button>
                 </div>
