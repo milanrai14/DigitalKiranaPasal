@@ -59,7 +59,16 @@ class CartController{
             const cartData = await Cart.findAll({
                 where: {
                     userId
+                },            include:[
+                {
+                    model: Product,
+                    attributes: ['id', 'productName', 'productPrice', 'productImageUrl']
+                },
+                {
+                    model: User,
+                    attributes: ['id', 'username', 'email']
                 }
+            ]
             });
             res.status(200).json({
                 message: "Product added to cart.",
@@ -85,16 +94,7 @@ class CartController{
             where:{
                 userId
             },
-            include:[
-                {
-                    model: Product,
-                    attributes: ['id', 'productName', 'productPrice', 'productImageUrl']
-                },
-                {
-                    model: User,
-                    attributes: ['id', 'username', 'email']
-                }
-            ]
+
         })
 
         if(cartItems.length ===0){
@@ -104,7 +104,8 @@ class CartController{
         } else {
             res.status(200).json({
                 message: "Cart items fetched successfully",
-                items: cartItems
+                data: cartItems
+
             })
         }
     }
