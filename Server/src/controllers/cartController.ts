@@ -47,6 +47,7 @@ class CartController{
             res.status(200).json({
                 message: "Item Increases",
                 IncreaseQuantity: existingitem.quantity
+                
             })
 
         } else{
@@ -55,9 +56,16 @@ class CartController{
                 productId,
                 quantity
             })
+            const cartData = await Cart.findAll({
+                where: {
+                    userId
+                }
+            });
             res.status(200).json({
                 message: "Product added to cart.",
-                addedItem: addItem
+                addedItem: addItem,
+                data: cartData
+
             })
         }
 

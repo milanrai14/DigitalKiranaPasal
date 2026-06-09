@@ -4,7 +4,8 @@ import { Status } from "../globals/types/type";
 import type { IProduct } from "../pages/product/types";
 import axios from "axios";
 import type { AppDispatch } from "./store";
-import { APIWITHTOKEN } from "../http";
+import { API, APIWITHTOKEN } from "../http";
+
 
 
 
@@ -33,7 +34,7 @@ export default cartSlice.reducer;
 
 //Asynchronous thunk
 
-function addToCart(productId: string){
+export function addToCart(productId: string){
     return async function addToCartThunk(dispatch: AppDispatch){
         try {
             dispatch(setStatus(Status.LOADING))
@@ -52,5 +53,24 @@ function addToCart(productId: string){
             dispatch(setStatus(Status.ERROR))
         }
 
+    }
+}
+
+export function fetchCartItems(){
+    return async function fetchCartItemsThunk(dispatch: AppDispatch){
+        try {
+            dispatch(setStatus(Status.LOADING))
+            const response = await APIWITHTOKEN.get("/cart/all-items")
+            if(response.status === 200){
+                dispatch(setItems(response.data.items))
+                dispatch(setStatus(Status.SUCCESS))
+            } else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(setStatus(Status.ERROR))
+            
+        }
     }
 }
