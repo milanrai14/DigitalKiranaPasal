@@ -2,11 +2,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Status } from "../globals/types/type";
 import axios from "axios";
 import type { AppDispatch } from "./store";
+
+
 interface IUser {
   username: string | null;
   email: string | null;
   password: string | null;
-  token: string | null;
+  token?: string | null;
 }
 
 interface ILogin {
@@ -49,7 +51,7 @@ const authSlice = createSlice({
   },
 });
 
-const { setUser, setStatus, setToken } = authSlice.actions;
+export const { setUser, setStatus, setToken } = authSlice.actions;
 export default authSlice.reducer;
 
 //asynchronous thunk

@@ -10,7 +10,6 @@ import axios from "axios";
 const initialState: IProducts = {
     products: [],
     status: Status.LOADING
-
 }
 
 const productSlice = createSlice({
