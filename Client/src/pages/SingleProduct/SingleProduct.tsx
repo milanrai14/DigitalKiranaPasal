@@ -1,107 +1,88 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Navbar from "../../globals/components/Navbar";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchSingleProduct } from "../../store/productSlice";
+import { Status } from "../../globals/types/type";
+
 function SingleProduct() {
-    
+  const { id } = useParams();
+
+  const dispatch = useAppDispatch();
+
+  const { selectedProduct, status } = useAppSelector(
+    (state) => state.product
+  );
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSingleProduct(id));
+    }
+  }, [id, dispatch]);
+
+  if (status === Status.LOADING) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!selectedProduct) {
+    return <h1>Product not found</h1>;
+  }
+
   return (
     <>
+      <Navbar />
+
       <div className="bg-gray-100 dark:bg-gray-800 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
-            {/* Product Image */}
             <div className="md:flex-1 px-4">
               <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
                 <img
                   className="w-full h-full object-cover"
-                  src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg"
-                  alt="Product"
+                  src={`http://localhost:3000/${selectedProduct.productImageUrl}`}
+                  alt={selectedProduct.productName}
                 />
               </div>
 
               <div className="flex -mx-2 mb-4">
                 <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">
+                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full">
                     Add to Cart
                   </button>
                 </div>
 
                 <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">
+                  <button className="w-full bg-gray-200 py-2 px-4 rounded-full">
                     Add to Wishlist
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Product Info */}
             <div className="md:flex-1 px-4">
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-                Product Name
+              <h2 className="text-2xl font-bold mb-2">
+                {selectedProduct.productName}
               </h2>
-
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
 
               <div className="flex mb-4">
                 <div className="mr-4">
-                  <span className="font-bold text-gray-700 dark:text-gray-300">
+                  <span className="font-bold">
                     Price:
                   </span>
-                  <span className="text-gray-600 dark:text-gray-300 ml-2">
-                    $29.99
-                  </span>
-                </div>
 
-                <div>
-                  <span className="font-bold text-gray-700 dark:text-gray-300">
-                    Availability:
-                  </span>
-                  <span className="text-gray-600 dark:text-gray-300 ml-2">
-                    In Stock
+                  <span className="ml-2">
+                    Rs. {selectedProduct.productPrice}
                   </span>
                 </div>
               </div>
 
-              {/* Colors */}
-              <div className="mb-4">
-                <span className="font-bold text-gray-700 dark:text-gray-300">
-                  Select Color:
-                </span>
-
-                <div className="flex items-center mt-2">
-                  <button className="w-6 h-6 rounded-full bg-gray-800 mr-2"></button>
-                  <button className="w-6 h-6 rounded-full bg-red-500 mr-2"></button>
-                  <button className="w-6 h-6 rounded-full bg-blue-500 mr-2"></button>
-                  <button className="w-6 h-6 rounded-full bg-yellow-500 mr-2"></button>
-                </div>
-              </div>
-
-              {/* Sizes */}
-              <div className="mb-4">
-                <span className="font-bold text-gray-700 dark:text-gray-300">
-                  Select Size:
-                </span>
-
-                <div className="flex items-center mt-2">
-                  {["S", "M", "L", "XL", "XXL"].map((size) => (
-                    <button
-                      key={size}
-                      className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600"
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Description */}
               <div>
-                <span className="font-bold text-gray-700 dark:text-gray-300">
+                <span className="font-bold">
                   Product Description:
                 </span>
 
-                <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  sed ante justo. Integer euismod libero id mauris malesuada
-                  tincidunt. Vivamus commodo nulla ut lorem rhoncus aliquet.
+                <p className="mt-2">
+                  {selectedProduct.productDescription}
                 </p>
               </div>
             </div>

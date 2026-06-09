@@ -25,5 +25,6 @@ export interface IProduct{
 
 export interface IProducts{
     products : IProduct[],
+    selectedProduct: IProduct | null
     status: Status
 }
