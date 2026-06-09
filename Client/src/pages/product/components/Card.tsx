@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { IProduct } from "../types";
 
 interface ICardProps{
@@ -6,7 +7,8 @@ interface ICardProps{
 
 const Card: React.FC<ICardProps> =({product})=>{
     return(
-        <>
+      <Link to={`/products/${product.id}`}>
+                <>
                   <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
             <a href="#">
               <img
@@ -51,6 +53,7 @@ const Card: React.FC<ICardProps> =({product})=>{
             </a>
           </div>
         </>
+      </Link>
     )
 }
 

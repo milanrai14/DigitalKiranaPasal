@@ -1,8 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IProduct, IProducts } from "../pages/product/types";
 import { Status } from "../globals/types/type";
-import type { AppDispatch } from "./store";
+import type { AppDispatch, RootState } from "./store";
 import axios from "axios";
+
+// import type { RootState } from "@reduxjs/toolkit/query";
 // import { clearScreenDown } from "readline";
 
 
@@ -48,5 +50,32 @@ export function fetchProducts(){
             
         }
 
+    }
+}
+
+//fetch single products
+export function fetchSingleProduct(id: string){
+    return async function fetchSingleProductThunk(dispatch: AppDispatch, getState: ()=> RootState){
+        const store = getState()
+const productExist = store.product.products.find(
+  (product: IProduct) => product.id === id
+);; //this search in frontend
+
+        if(productExist){
+            dispatch(setProduct([productExist]));
+            dispatch(setStatus(Status.SUCCESS));
+        } else { // if not exist in frontend then search in backend.
+                    try {
+            const response = await axios.get("http://localhost:3000/api/product/single-product/"+id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setProduct(response.data.data.length > 0 && response.data.data[0]))
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(setStatus(Status.ERROR))
+            
+        }
+        }
     }
 }

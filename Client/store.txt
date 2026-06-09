@@ -17,3 +17,26 @@ const store = configureStore({ // duita slice lai jodera store banako ho
 export default store
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
+
+
+//RootState भनेको Redux Store को सम्पूर्ण state को TypeScript type हो।
+
+उदाहरण:
+
+export const store = configureStore({
+  reducer: {
+    product: productReducer,
+    user: userReducer,
+    cart: cartReducer,
+  },
+});
+
+Store को state यस्तो देखिन्छ:
+
+{
+  product: {...},
+  user: {...},
+  cart: {...}
+}
+
+यस state को type लाई RootState भनिन्छ।
