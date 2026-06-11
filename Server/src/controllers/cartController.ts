@@ -44,9 +44,25 @@ class CartController{
             //increase the cart Item
             existingitem.quantity =  existingitem.quantity + quantity
             await existingitem.save()
+            const cardData = await Cart.findAll({
+                where: {
+                    userId
+                },
+                include:[
+                    {
+                        model: Product,
+                        attributes: ["id", "productName", "productPrice", "productImageUrl"]
+                    },
+                    {
+                        model: User,
+                        attributes: ["id", "username", "email"]
+                    }
+                ]
+            })
             res.status(200).json({
                 message: "Item Increases",
-                IncreaseQuantity: existingitem.quantity
+                IncreaseQuantity: existingitem.quantity,
+                data: cardData
                 
             })
 

@@ -34,26 +34,46 @@ export default cartSlice.reducer;
 
 //Asynchronous thunk
 
-export function addToCart(productId: string){
-    return async function addToCartThunk(dispatch: AppDispatch){
-        try {
-            dispatch(setStatus(Status.LOADING))
-           const response =  await APIWITHTOKEN.post("/cart/add-cart", {
-            productId: productId,
-            quantity: 1
-           })
-           if(response.status === 200){
-            dispatch(setStatus(Status.SUCCESS))
-            dispatch(setItems(response.data.data))
-           } else {
-            dispatch(setStatus(Status.ERROR))
-           }
-        } catch (error) {
-            console.log(error);
-            dispatch(setStatus(Status.ERROR))
-        }
+// export function addToCart(productId: string){
+//     return async function addToCartThunk(dispatch: AppDispatch){
+//         try {
+//             dispatch(setStatus(Status.LOADING))
+//            const response =  await APIWITHTOKEN.post("/cart/add-cart", {
+//             productId: productId,
+//             quantity: 1
+//            })
+//            if(response.status === 200){
+//             dispatch(setStatus(Status.SUCCESS))
+//             dispatch(setItems(response.data.data))
+//            } else {
+//             dispatch(setStatus(Status.ERROR))
+//            }
+//         } catch (error) {
+//             console.log(error);
+//             dispatch(setStatus(Status.ERROR))
+//         }
 
+//     }
+// }
+export function addToCart(productId: string) {
+  return async function addToCartThunk(dispatch: AppDispatch) {
+    try {
+      dispatch(setStatus(Status.LOADING));
+
+      const response = await APIWITHTOKEN.post("/cart/add-cart", {
+        productId,
+        quantity: 1,
+      });
+
+      if (response.status === 200) {
+        dispatch(fetchCartItems()); // Refresh cart items
+        dispatch(setStatus(Status.SUCCESS));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(setStatus(Status.ERROR));
     }
+  };
 }
 
 export function fetchCartItems(){
@@ -62,7 +82,7 @@ export function fetchCartItems(){
             dispatch(setStatus(Status.LOADING))
             const response = await APIWITHTOKEN.get("/cart/all-items")
             if(response.status === 200){
-                dispatch(setItems(response.data.items))
+                dispatch(setItems(response.data.data))
                 dispatch(setStatus(Status.SUCCESS))
             } else {
                 dispatch(setStatus(Status.ERROR))

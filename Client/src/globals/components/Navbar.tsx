@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect, useState } from "react";
+import { fetchCartItems } from "../../store/cartSlice";
 // import { fetchCartItems } from "../../store/cartSlice";
 
 function Navbar() {
   const reduxToken = useAppSelector((store) => store.auth.user.token);
-//   const { items } = useAppSelector((store) => store.cart);
+  const { items } = useAppSelector((store) => store.cart);
   const localStorageToken = localStorage.getItem("tokenHoYo");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ function Navbar() {
   useEffect(() => {
     setIsLoggedIn(!!localStorageToken || !!reduxToken);
     if (isLoggedIn) {
-    //   dispatch(fetchCartItems());
+      dispatch(fetchCartItems());
     }
     // if(reduxToken && localStorageToken){
     //     setIsLoggedIn(true)
@@ -58,7 +59,7 @@ function Navbar() {
               <span className="mr-[10px]">
                 {" "}
                 <Link to="/my-cart">
-                  Cart <sup></sup>
+                  Cart <sup>{items.length > 0 ? items.length : 0}</sup>
                 </Link>
               </span>
               <Link to="/logout">
