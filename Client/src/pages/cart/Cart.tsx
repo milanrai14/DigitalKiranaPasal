@@ -1,6 +1,11 @@
 import Navbar from "../../globals/components/Navbar";
+import { useAppSelector } from "../../store/hooks";
 
 function Cart() {
+  //   const { items } = useAppSelector((store) => store.cart);
+  const { items } = useAppSelector((store) => store.cart);
+  console.log(items);
+
   return (
     <>
       <Navbar />
@@ -20,31 +25,37 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    {
+                        items.length > 0 && items.map((item)=>{
+                            return(
+                                                    <tr>
                       <td className="py-4">
                         <div className="flex items-center">
                           <img
                             className="h-16 w-16 mr-4"
-                            src="https://via.placeholder.com/150"
+                            src={`http://localhost:3000/${item.Product.productImageUrl}`}
                             alt="Product image"
                           />
-                          <span className="font-semibold">Product name</span>
+                          <span className="font-semibold">{item.Product.productName}</span>
                         </div>
                       </td>
-                      <td className="py-4">$19.99</td>
+                      <td className="py-4">{item.Product.productPrice}</td>
                       <td className="py-4">
                         <div className="flex items-center">
                           <button className="border rounded-md py-2 px-4 mr-2">
                             -
                           </button>
-                          <span className="text-center w-8">1</span>
+                          <span className="text-center w-8">{item.quantity}</span>
                           <button className="border rounded-md py-2 px-4 ml-2">
                             +
                           </button>
                         </div>
                       </td>
-                      <td className="py-4">$19.99</td>
+                      <td className="py-4">Rs {item.Product.productPrice * item.quantity}</td>
                     </tr>
+                            )
+                        })
+                    }
                     {/* More product rows */}
                   </tbody>
                 </table>

@@ -110,8 +110,13 @@ class CartController{
             where:{
                 userId
             },
-
-        })
+            include : [
+                {
+                    model: Product,
+                    attributes: ['id', 'productName', 'productPrice', 'productImageUrl']
+                },
+            ]
+    })
 
         if(cartItems.length ===0){
             res.status(400).json({
