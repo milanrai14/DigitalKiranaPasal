@@ -1,8 +1,15 @@
+import { useSelector } from "react-redux";
 import Navbar from "../../globals/components/Navbar";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 
 
 function Checkout(){
+
+    const dispatch = useAppDispatch()
+    const {items} = useAppSelector((store)=>store.cart)
+    const total = items.reduce((total, item)=>item.Product.productPrice * item.quantity + total, 0)
+    const 
     return(
         <>
         <Navbar />
