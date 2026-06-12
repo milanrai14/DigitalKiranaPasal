@@ -1,5 +1,5 @@
 import Navbar from "../../globals/components/Navbar";
-import { handleCartItemUpdate } from "../../store/cartSlice";
+import { handleCartItemDelete, handleCartItemUpdate, setDeleteCartItem } from "../../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Product from "../product/Product";
 
@@ -10,8 +10,16 @@ function Cart() {
   const dispatch = useAppDispatch()
   const handleUpdate = (productId: string, quantity: number)=>{
     dispatch(handleCartItemUpdate(productId,quantity))
-
  }
+
+  const handleDelete = (productId: string)=>{
+    dispatch(handleCartItemDelete(productId));
+ }
+
+ const subTotal = items.reduce((total, item)=>item.Product.productPrice * item.quantity + total+ 0, 0)
+ const totalQunatityInCart = items.reduce((total, item)=>item.quantity + total+ 0, 0)
+ const shippingAddress = 100
+ const total = subTotal + shippingAddress
   return (
     <>
       <Navbar />
@@ -58,11 +66,13 @@ function Cart() {
                         </div>
                       </td>
                       <td className="py-4">Rs {item.Product.productPrice * item.quantity}</td>
+                      <td className="py-4">
+                        <button className="border rounded-md py-2 px-4 ml-2 bg-red-600 hover:bg-red-800" onClick={()=>handleDelete(item.Product.id)}>X</button>
+                      </td>
                     </tr>
                             )
                         })
                     }
-                    {/* More product rows */}
                   </tbody>
                 </table>
               </div>
@@ -72,20 +82,20 @@ function Cart() {
                 <h2 className="text-lg font-semibold mb-4">Summary</h2>
                 <div className="flex justify-between mb-2">
                   <span>Subtotal</span>
-                  <span>$19.99</span>
+                  <span>Rs {subTotal}</span>
                 </div>
                 <div className="flex justify-between mb-2">
-                  <span>Taxes</span>
-                  <span>$1.99</span>
+                  <span>Total Quantity</span>
+                  <span>{totalQunatityInCart}</span>
                 </div>
                 <div className="flex justify-between mb-2">
                   <span>Shipping</span>
-                  <span>$0.00</span>
+                  <span>{shippingAddress}</span>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">Total</span>
-                  <span className="font-semibold">$21.98</span>
+                  <span className="font-semibold">Rs {total}</span>
                 </div>
                 <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
                   Checkout

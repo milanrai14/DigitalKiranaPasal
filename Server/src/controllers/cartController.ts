@@ -131,27 +131,44 @@ class CartController{
         }
     }
 
-    static async removeMyCartItem(req: AuthRequest, res: Response){
-        const userId = req.user?.id
-        const {productId} = req.body
+    // static async removeMyCartItem(req: AuthRequest, res: Response){
+        // const userId = req.user?.id
+        // const {productId} = req.body
 
-        const deleted = await Cart.destroy({
-            where:{
-                productId,
-                userId
-            }
-        })
-        if(!deleted){
-            return res.status(404).json({
-                message: "Items not found"
-            })
+        // const deleted = await Cart.destroy({
+        //     where:{
+        //         productId,
+        //         userId
+        //     }
+        // })
+        // if(!deleted){
+        //     return res.status(404).json({
+        //         message: "Items not found"
+        //     })
+        // }
+        static async removeMyCartItem(req: AuthRequest, res: Response) {
+    const userId = req.user?.id;
+    const { productId } = req.params;
+
+    const deleted = await Cart.destroy({
+        where: {
+            productId,
+            userId
         }
-        res.status(200).json({
-            message: "Product from cart deleted successfully"
-        })
+    });
 
-
+    if (!deleted) {
+        return res.status(404).json({
+            message: "Items not found"
+        });
     }
+
+    return res.status(200).json({
+        message: "Product from cart deleted successfully"
+    });
+}
+ 
+
     
     static async updateCartItemQuantity(req: AuthRequest, res: Response){
         const userId = req.user?.id

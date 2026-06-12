@@ -31,12 +31,17 @@ const cartSlice = createSlice({
             if(index !== -1){ //find some data
                 state.items[index].quantity = action.payload.quantity
             }
-
+        },
+        setDeleteCartItem(state: ICartInitalState, action: PayloadAction<string>){
+            const index = state.items.findIndex(item=>item.Product.id == action.payload)
+                 if(index !== -1){ //find some data
+                state.items.splice(index, 1)
+            }
         }
     }
 })
 
-export const {setItems, setStatus, setUpdateCartItem} = cartSlice.actions;
+export const {setItems, setStatus, setUpdateCartItem, setDeleteCartItem} = cartSlice.actions;
 export default cartSlice.reducer;
 
 
@@ -112,6 +117,27 @@ export function handleCartItemUpdate(productId: string, quantity: number){
             })
             if(response.status === 200){
                 dispatch(setUpdateCartItem({productId, quantity}))
+                dispatch(setStatus(Status.SUCCESS))
+            } else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(setStatus(Status.ERROR))
+            
+        }
+    }
+    
+}
+
+
+export function handleCartItemDelete(productId: string){
+    return async function handleCartItemUpdateThunk(dispatch: AppDispatch){
+       try {
+            dispatch(setStatus(Status.LOADING))
+            const response = await APIWITHTOKEN.delete("/cart/delete-cart/"+productId) //http://localhost:3000/api/cart/delete-cart/
+            if(response.status === 200){
+                dispatch(setDeleteCartItem(productId))
                 dispatch(setStatus(Status.SUCCESS))
             } else {
                 dispatch(setStatus(Status.ERROR))
