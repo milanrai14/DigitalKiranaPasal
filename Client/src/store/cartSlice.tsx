@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { ICartInitalState, ICartItem } from "../pages/cart/types";
+import type { ICartInitalState, ICartItem, ICartUpdateItem } from "../pages/cart/types";
 import { Status } from "../globals/types/type";
 import type { IProduct } from "../pages/product/types";
 import axios from "axios";
@@ -24,11 +24,19 @@ const cartSlice = createSlice({
         },
         setStatus(state: ICartInitalState, action:PayloadAction<Status>){
             state.status = action.payload;
+        },
+        setUpdateCartItem(state: ICartInitalState, action: PayloadAction<ICartUpdateItem>){
+            const index = state.items.findIndex(item=>item.Product.id == action.payload.productId)
+
+            if(index !== -1){ //find some data
+                state.items[index].quantity = action.payload.quantity
+            }
+
         }
     }
 })
 
-export const {setItems, setStatus} = cartSlice.actions;
+export const {setItems, setStatus, setUpdateCartItem} = cartSlice.actions;
 export default cartSlice.reducer;
 
 
@@ -93,4 +101,26 @@ export function fetchCartItems(){
             
         }
     }
+}
+
+export function handleCartItemUpdate(productId: string, quantity: number){
+    return async function handleCartItemUpdateThunk(dispatch: AppDispatch){
+       try {
+            dispatch(setStatus(Status.LOADING))
+            const response = await APIWITHTOKEN.patch("/cart/update-quantity/"+productId,{
+                quantity: quantity
+            })
+            if(response.status === 200){
+                dispatch(setUpdateCartItem({productId, quantity}))
+                dispatch(setStatus(Status.SUCCESS))
+            } else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(setStatus(Status.ERROR))
+            
+        }
+    }
+    
 }

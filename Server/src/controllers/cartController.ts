@@ -156,6 +156,7 @@ class CartController{
     static async updateCartItemQuantity(req: AuthRequest, res: Response){
         const userId = req.user?.id
         const {productId} = req.params
+        console.log("ProductID", productId);
         const {quantity} = req.body
 
         if(!quantity){
@@ -170,6 +171,7 @@ class CartController{
                 productId
             }
         })
+        console.log("cart Item: " ,cartItem);
         if(!cartItem){
             res.status(404).json({
                 message: "No product Id in Cart"

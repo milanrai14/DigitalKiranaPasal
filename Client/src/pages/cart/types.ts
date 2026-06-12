@@ -25,3 +25,8 @@ export interface ICartInitalState{
     status: Status
 }
 
+export interface ICartUpdateItem{
+    productId: string,
+    quantity: number
+}
+

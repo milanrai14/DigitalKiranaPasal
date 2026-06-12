@@ -1,11 +1,17 @@
 import Navbar from "../../globals/components/Navbar";
-import { useAppSelector } from "../../store/hooks";
+import { handleCartItemUpdate } from "../../store/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import Product from "../product/Product";
 
 function Cart() {
   //   const { items } = useAppSelector((store) => store.cart);
   const { items } = useAppSelector((store) => store.cart);
   console.log(items);
+  const dispatch = useAppDispatch()
+  const handleUpdate = (productId: string, quantity: number)=>{
+    dispatch(handleCartItemUpdate(productId,quantity))
 
+ }
   return (
     <>
       <Navbar />
@@ -42,11 +48,11 @@ function Cart() {
                       <td className="py-4">{item.Product.productPrice}</td>
                       <td className="py-4">
                         <div className="flex items-center">
-                          <button className="border rounded-md py-2 px-4 mr-2">
+                          <button className="border rounded-md py-2 px-4 mr-2" onClick={()=>handleUpdate(item.Product.id, item.quantity-1)}>
                             -
                           </button>
                           <span className="text-center w-8">{item.quantity}</span>
-                          <button className="border rounded-md py-2 px-4 ml-2">
+                          <button className="border rounded-md py-2 px-4 ml-2" onClick={()=>handleUpdate(item.Product.id, item.quantity+1)}>
                             +
                           </button>
                         </div>
