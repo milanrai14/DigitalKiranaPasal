@@ -42,7 +42,7 @@ function Navbar() {
               ></path>
             </svg>
           </div>
-          HDokaan..
+          Digital Kirana
         </div>
         <div className="flex mt-4 sm:mt-0">
           <Link className="px-4" to="/products">
@@ -58,7 +58,7 @@ function Navbar() {
             <>
               <span className="mr-[10px]">
                 {" "}
-                <Link to="/my-cart">
+                <Link to="/cart">
                   Cart <sup>{items.length > 0 ? items.length : 0}</sup>
                 </Link>
               </span>

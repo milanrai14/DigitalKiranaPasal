@@ -19,7 +19,9 @@ function Cart() {
  const subTotal = items.reduce((total, item)=>item.Product.productPrice * item.quantity + total+ 0, 0)
  const totalQunatityInCart = items.reduce((total, item)=>item.quantity + total+ 0, 0)
  const shippingAddress = 100
- const total = subTotal + shippingAddress
+
+
+ const total = items.length > 0 ? subTotal + shippingAddress : 0;
   return (
     <>
       <Navbar />
