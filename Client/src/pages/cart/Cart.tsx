@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navbar from "../../globals/components/Navbar";
 import { handleCartItemDelete, handleCartItemUpdate, setDeleteCartItem } from "../../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -99,9 +100,11 @@ function Cart() {
                   <span className="font-semibold">Total</span>
                   <span className="font-semibold">Rs {total}</span>
                 </div>
+                <Link to="/checkout">
                 <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
                   Checkout
                 </button>
+                </Link>
               </div>
             </div>
           </div>
