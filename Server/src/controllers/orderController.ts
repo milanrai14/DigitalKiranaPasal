@@ -28,10 +28,15 @@ class OrderController {
                 shippingAddress,
                 totalAmount,
                 paymentMethod,
-                products
+                products,
+                firstName,
+                lastName,
+                email
+
+
             } = req.body;
 
-            if (!phoneNumber || !shippingAddress || !totalAmount || !products || products.length === 0) {
+            if (!phoneNumber || !shippingAddress || !totalAmount || !products || products.length === 0 || !firstName || !lastName || !email) {
                 return res.status(400).json({
                     message: "Please provide phoneNumber, shippingAddress, totalAmount, products"
                 });
@@ -42,7 +47,10 @@ class OrderController {
                 phoneNumber,
                 shippingAddress,
                 totalAmount,
-                userId
+                userId,
+                firstName,
+                lastName,
+                email
             });
 
             // 2. Create OrderDetails (IMPORTANT FIX)

@@ -1,4 +1,4 @@
-import {Table, Column, Model, DataType, Validate} from 'sequelize-typescript'
+import {Table, Column, Model, DataType, Validate, AllowNull} from 'sequelize-typescript'
 import { OrderStatus } from '../../globals/types'
 
 
@@ -30,10 +30,19 @@ class Order extends Model{
     declare phoneNumber: string
 
     @Column({
-        type: DataType.STRING,
-        allowNull: false
+        type: DataType.STRING
     })
-    declare shippingAddress: string
+    declare addressLine: string
+
+    @Column({
+        type: DataType.STRING,
+    })
+    declare city: string
+
+    @Column({
+        type: DataType.STRING,
+    })
+    declare state: string
 
     @Column({
         type: DataType.FLOAT,
@@ -46,6 +55,32 @@ class Order extends Model{
         defaultValue: OrderStatus.Pending
     })
     declare orderStatus : string
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: "Testing Anoynomus"
+    })
+    declare firstName: string
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: "Testing Anoynomus"
+    })
+    declare lastName: string
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: "Testing Anoynomus"
+    })
+    declare email : string
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: "Testing Anoynomus"
+    })
+    declare zipcode : string
 
 }
 

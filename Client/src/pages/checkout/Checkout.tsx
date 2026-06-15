@@ -1,9 +1,22 @@
 
+import Navbar from "../../globals/components/Navbar"
+import { useAppSelector } from "../../store/hooks"
+import store from "../../store/store"
 
 
 function Checkout(){
+  const {items} = useAppSelector((store)=> store.cart)
+  console.log(items);
+
+const subTotal = items.reduce((total, item)=>item.Product.productPrice * item.quantity + total+ 0, 0)
+ const totalQunatityInCart = items.reduce((total, item)=>item.quantity + total+ 0, 0)
+ const shippingAddress = 100
+
+
+ const total = items.length > 0 ? (subTotal + shippingAddress) *1.13 : 0; 
   return(
     <>
+  <Navbar />
   <div>
   <h1 className="sr-only">Checkout</h1>
   <div className="flex flex-col h-full md:flex-row">
@@ -12,62 +25,27 @@ function Checkout(){
       <div className="relative h-full">
         <div className="px-6 py-8 md:overflow-auto md:h-screen">
           {/* Product List */}
-          <ul className="space-y-6">
+          {
+            items.length > 0 ? items.map((item)=>{
+              return(
+                    <ul className="space-y-6">
             <li className="flex items-start gap-4">
               <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md dark:bg-neutral-700">
-                <img src="https://readymadeui.com/images/black-sweaters-1.webp" className="w-full object-contain" alt="black sweater" />
+                <img src= {`http://localhost:3000/${item.Product.productImageUrl}`} className="w-full object-contain" alt="black sweater" />
               </div>
               <div className="w-full">
-                <h3 className="text-sm text-slate-900 font-semibold dark:text-slate-50">Black Sweater</h3>
+                <h3 className="text-sm text-slate-900 font-semibold dark:text-slate-50">{item.Product.productName}</h3>
                 <ul className="text-sm text-slate-500 font-medium space-y-2 mt-2 dark:text-slate-400">
-                  <li className="flex flex-wrap gap-4">Quantity <span className="ml-auto">2</span></li>
-                  <li className="flex flex-wrap gap-4">Total Price <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$40</span>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li className="flex items-start gap-4">
-              <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md dark:bg-neutral-700">
-                <img src="https://readymadeui.com/images/dark-green-tshirt-2.webp" className="w-full object-contain" alt="dark green tshirt" />
-              </div>
-              <div className="w-full">
-                <h3 className="text-sm text-slate-900 font-semibold dark:text-slate-50">Dark Green Tshirt
-                </h3>
-                <ul className="text-sm text-slate-500 font-medium space-y-2 mt-2 dark:text-slate-400">
-                  <li className="flex flex-wrap gap-4">Quantity <span className="ml-auto">1</span></li>
-                  <li className="flex flex-wrap gap-4">Total Price <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$16</span>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li className="flex items-start gap-4">
-              <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md dark:bg-neutral-700">
-                <img src="https://readymadeui.com/images/green-jacket-3.webp" className="w-full object-contain" alt="jacket" />
-              </div>
-              <div className="w-full">
-                <h3 className="text-sm text-slate-900 font-semibold dark:text-slate-50">Jacket</h3>
-                <ul className="text-sm text-slate-500 font-medium space-y-2 mt-2 dark:text-slate-400">
-                  <li className="flex flex-wrap gap-4">Quantity <span className="ml-auto">1</span></li>
-                  <li className="flex flex-wrap gap-4">Total Price <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$16</span>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li className="flex items-start gap-4">
-              <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md dark:bg-neutral-700">
-                <img src="https://readymadeui.com/images/product14.webp" className="w-full object-contain" alt="black & white sneakers" />
-              </div>
-              <div className="w-full">
-                <h3 className="text-sm text-slate-900 font-semibold dark:text-slate-50">Black &amp; White
-                  Sneakers</h3>
-                <ul className="text-sm text-slate-500 font-medium space-y-2 mt-2 dark:text-slate-400">
-                  <li className="flex flex-wrap gap-4">Quantity <span className="ml-auto">1</span></li>
-                  <li className="flex flex-wrap gap-4">Total Price <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$16</span>
+                  <li className="flex flex-wrap gap-4">Quantity <span className="ml-auto">{item.quantity}</span></li>
+                  <li className="flex flex-wrap gap-4">Total Price <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">Rs {item.Product.productPrice} /-</span>
                   </li>
                 </ul>
               </div>
             </li>
           </ul>
+              )
+            }) : <p>No Items</p>
+          }
           <hr className="border-slate-300 my-6 dark:border-neutral-700" />
           {/* Promo Code Form */}
           <form className="max-w-sm mb-8">
@@ -80,15 +58,15 @@ function Checkout(){
           </form>
           <div>
             <ul className="text-slate-500 font-medium space-y-4 dark:text-slate-400">
-              <li className="flex flex-wrap gap-4 text-sm">Subtotal <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$102.00</span>
+              <li className="flex flex-wrap gap-4 text-sm">Subtotal <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">{subTotal}</span>
               </li>
-              <li className="flex flex-wrap gap-4 text-sm">Shipping <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$6.00</span>
+              <li className="flex flex-wrap gap-4 text-sm">Shipping <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">Rs 100</span>
               </li>
-              <li className="flex flex-wrap gap-4 text-sm">Tax <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">$5.00</span>
+              <li className="flex flex-wrap gap-4 text-sm">Tax <span className="ml-auto text-slate-900 font-semibold dark:text-slate-50">13 %</span>
               </li>
               <hr className="border-slate-300 dark:border-neutral-700" />
               <li className="flex flex-wrap gap-4 text-sm font-semibold text-slate-900 dark:text-slate-50">
-                Total <span className="ml-auto">$113.00</span></li>
+                Total <span className="ml-auto">Rs {total}</span></li>
             </ul>
           </div>
         </div>
@@ -136,7 +114,7 @@ function Checkout(){
             <div>
               <label htmlFor="postal-code" className="mb-2 text-slate-900 font-medium text-sm inline-block dark:text-slate-50">Postal
                 code</label>
-              <input type="text" id="postal-code" name="postal-code" placeholder={10001} required className="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 dark:text-slate-50 dark:bg-neutral-800 dark:outline-neutral-700" />
+              <input type="text" id="postal-code" name="postal-code" placeholder={"XXXX"} required className="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 dark:text-slate-50 dark:bg-neutral-800 dark:outline-neutral-700" />
             </div>
           </div>
         </fieldset>
@@ -205,3 +183,5 @@ function Checkout(){
 </>
   )
 }
+
+export default Checkout
