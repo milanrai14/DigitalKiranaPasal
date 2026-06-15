@@ -3,7 +3,7 @@ import type { Status } from "../../globals/types/type";
 
 export interface IProduct{
     productId : string,
-    quantity: number,
+    productQuantity: number,
 }
 
 
@@ -12,10 +12,11 @@ export interface IOrderItem extends IProduct{
 }
 export interface IOrder{
     status: Status,
-    items: IOrderItem[]
+    items: IOrderItem[],
+    KhaltiUrl: string | null
 }
 
-enum PaymentMethod{
+export enum PaymentMethod{
     Esewa = "esewa",
     Khalti = "khalti",
     Cod = "Cod"

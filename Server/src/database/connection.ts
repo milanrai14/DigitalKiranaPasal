@@ -20,7 +20,7 @@ export async function connectDB() {
   try {
     await sequelize.authenticate();
     console.log("✅ Database connected");
-    await sequelize.sync({ force: false, alter: true }); // created and update the tables
+    await sequelize.sync({ force: false, alter: false }); // created and update the tables
     //alter just change the name of column
     //force: true deletes the table value
     console.log("✅ Tables synced");

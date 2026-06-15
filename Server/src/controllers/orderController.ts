@@ -26,7 +26,7 @@ class OrderController {
 
             const {
                 phoneNumber,
-                shippingAddress,
+                addressLine,
                 totalAmount,
                 paymentMethod,
                 products,
@@ -36,12 +36,12 @@ class OrderController {
                 city,
                 zipcode,
                 state,
-                addressLine
+                
 
 
             } = req.body;
 
-            if (!phoneNumber || !shippingAddress || !totalAmount || !products || products.length === 0 || !firstName || !lastName || !email || !city || !zipcode || !state || !addressLine) {
+            if (!phoneNumber  || !totalAmount || !products || products.length === 0 || !firstName || !lastName || !email || !city || !zipcode || !state || !addressLine) {
                 return res.status(400).json({
                     message: "Please provide phoneNumber, shippingAddress, totalAmount, products"
                 });
@@ -50,7 +50,6 @@ class OrderController {
             // 1. Create Order
             const orderData = await Order.create({
                 phoneNumber,
-                shippingAddress,
                 totalAmount,
                 userId,
                 firstName,
@@ -62,9 +61,10 @@ class OrderController {
                 zipcode
             });
 
+            let orderResponse;
             // 2. Create OrderDetails (IMPORTANT FIX)
             for (const product of products) {
-                await OrderDetails.create({
+                orderResponse = await OrderDetails.create({
                     quantity: product.productQuantity,
                     productId: product.productId,
                     orderId: orderData.id
@@ -113,11 +113,13 @@ class OrderController {
                 orderId: orderData.id,
                 url: khaltiResponse.payment_url,
                 pidx: khaltiResponse.pidx,
+                data: orderResponse
             });
                 
             } else {
                 res.status(200).json({
-                    message: "Order created successfully!"
+                    message: "Order created successfully!",
+                    data: orderResponse
                 })
             }
 
