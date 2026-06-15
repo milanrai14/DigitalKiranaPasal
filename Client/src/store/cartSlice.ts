@@ -141,6 +141,8 @@ export function handleCartItemDelete(productId: string){
                 dispatch(setStatus(Status.SUCCESS))
             } else {
                 dispatch(setStatus(Status.ERROR))
+
+                
             }
         } catch (error) {
             console.log(error);
