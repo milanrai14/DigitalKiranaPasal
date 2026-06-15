@@ -29,12 +29,19 @@ export const {setItems, setStatus} = checkoutSlice.actions
 
 
 
-function orderItem(data: IData){
+export function orderItem(data: IData){
     return async function orderitemThunk(dispatch: AppDispatch){
         try {
-            await APIWITHTOKEN.post("http://localhost:3000/api/order/create-order",)
+            const response =await APIWITHTOKEN.post("http://localhost:3000/api/order/create-order", data)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setItems(response.data.data)) // backend bata aako respones
+            } else {
+                dispatch(setStatus(Status.ERROR))
+            }
         } catch (error) {
-            
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }
+
