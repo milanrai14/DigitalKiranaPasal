@@ -1,10 +1,13 @@
 import type { Status } from "../../globals/types/type";
 
 
-
-export interface IOrderItem{
+export interface IProduct{
     productId : string,
     quantity: number,
+}
+
+
+export interface IOrderItem extends IProduct{
     orderId: string
 }
 export interface IOrder{
@@ -29,5 +32,5 @@ export interface IData{
     zipcode: string,
     totalAmount: number,
     paymentMethod: PaymentMethod,
-    products: 
+    products: IProduct[]
 }
