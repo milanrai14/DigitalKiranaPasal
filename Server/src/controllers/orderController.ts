@@ -5,6 +5,7 @@ import { PaymentMethod, PaymentStatus } from "../globals/types"
 import Payment from "../database/Models/paymentModel"
 import axios from "axios"
 import { promises } from "nodemailer/lib/xoauth2"
+import Cart from "../database/Models/cartModel"
 
 interface IProduct{
     productId : string,
@@ -68,6 +69,13 @@ class OrderController {
                     productId: product.productId,
                     orderId: orderData.id
                 });
+
+                await Cart.destroy({ // saman kinisakey paxi udauney cart bata
+                    where:{
+                        productId: product.productId,
+                        userId: userId
+                    }
+                })
             }
 
             // 3. Payment
@@ -100,15 +108,17 @@ class OrderController {
                 })
             
                 paymentData.save()
-                res.status(201).json({
+                res.status(200).json({
                 message: "Order created successfully",
                 orderId: orderData.id,
                 url: khaltiResponse.payment_url,
-                pidx: khaltiResponse.pidx
+                pidx: khaltiResponse.pidx,
             });
                 
             } else {
-                //Esewa logic
+                res.status(200).json({
+                    message: "Order created successfully!"
+                })
             }
 
     }
