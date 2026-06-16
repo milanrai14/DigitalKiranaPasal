@@ -1,13 +1,15 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import Navbar from "../../globals/components/Navbar";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import { PaymentMethod, type IData } from "./type";
 import { orderItem } from "../../store/checkoutSlice";
+import store from "../../store/store";
 
 function Checkout() {
   const dispatch = useAppDispatch()
   const { items } = useAppSelector((store) => store.cart);
+  const { KhaltiUrl} = useAppSelector((store)=> store.checkout)
   const productsData = items.length > 0 ? items.map((item)=>{
     return{
       productId: item.productId,
@@ -58,11 +60,23 @@ function Checkout() {
 
   const [paymentMethod, setPaymetMethod] = useState<PaymentMethod>(PaymentMethod.Cod)
 
-  const handlePayment = (data: PaymentMethod)=>{
-    setPaymetMethod(data)
-    console.log(data);
+  const handlePayment = (paymentData: PaymentMethod)=>{
+    setPaymetMethod(paymentData)
+    console.log(paymentData);
+    setData({
+      ...data,
+      paymentMethod:paymentData
+    })
   }
-  // console.log(handleChange);
+  
+  useEffect(()=>{
+    if(KhaltiUrl){
+      console.log(KhaltiUrl);
+      window.location.href = KhaltiUrl
+      return;
+    }
+  }, [KhaltiUrl])
+
   
   return (
     <>
@@ -292,9 +306,9 @@ function Checkout() {
                   Payment method
                 </legend>
                 <select name="" id="paymentMethod" onChange={(e)=>handlePayment(e.target.value as PaymentMethod)}>
+                  <option value={PaymentMethod.Cod}>Cash on delivery</option>
                   <option value={PaymentMethod.Esewa}>Esewa</option>
                   <option value={PaymentMethod.Khalti}>Khalti</option>
-                  <option value={PaymentMethod.Cod}>Cash on delivery</option>
                 </select>
           
               </fieldset>
@@ -334,13 +348,39 @@ function Checkout() {
                 </span>
               </label>
               <div className="mt-8">
-                <button
+                {
+                  paymentMethod === PaymentMethod.Cod && (
+                                    <button
                   type="submit"
                   className="w-full px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 hover:bg-blue-700 border border-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       
                 >
-                  Rs {total} /-
+                  {total > 0 ? `Cash On Delivery: Rs ${total}` : "Cash On Delivery"}
                 </button>
+                  )
+                }
+                {
+                  paymentMethod === PaymentMethod.Khalti && (
+                                    <button
+                  type="submit"
+                  className="w-full px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-purple-600 hover:bg-blue-700 border border-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      
+                >
+                    {total > 0 ? `Pay with Khalti: Rs ${total}` : "Paywith khaltli"}
+                </button>
+                  )
+                }
+                                {
+                  paymentMethod === PaymentMethod.Esewa && (
+                                    <button
+                  type="submit"
+                  className="w-full px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-green-600 hover:bg-blue-700 border border-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      
+                >
+                  {total > 0 ? `Pay with Esewa: Rs ${total}` : 'Pay with Esewa'}
+                </button>
+                  )
+                }
               </div>
             </form>
           </section>
