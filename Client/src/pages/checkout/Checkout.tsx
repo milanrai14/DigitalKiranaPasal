@@ -54,7 +54,15 @@ function Checkout() {
     e.preventDefault()
     dispatch(orderItem(data));
   }
+  
 
+  const [paymentMethod, setPaymetMethod] = useState<PaymentMethod>(PaymentMethod.Cod)
+
+  const handlePayment = (data: PaymentMethod)=>{
+    setPaymetMethod(data)
+    console.log(data);
+  }
+  // console.log(handleChange);
   
   return (
     <>
@@ -283,7 +291,7 @@ function Checkout() {
                 <legend className="text-xl text-slate-900 font-semibold mb-6 dark:text-slate-50">
                   Payment method
                 </legend>
-                <select name="" id="paymentMethod">
+                <select name="" id="paymentMethod" onChange={(e)=>handlePayment(e.target.value as PaymentMethod)}>
                   <option value={PaymentMethod.Esewa}>Esewa</option>
                   <option value={PaymentMethod.Khalti}>Khalti</option>
                   <option value={PaymentMethod.Cod}>Cash on delivery</option>
