@@ -283,73 +283,12 @@ function Checkout() {
                 <legend className="text-xl text-slate-900 font-semibold mb-6 dark:text-slate-50">
                   Payment method
                 </legend>
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <div className="bg-gray-100 p-4 rounded-md border border-slate-300 max-w-sm dark:bg-neutral-800 dark:border-neutral-700">
-                    <div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          name="method"
-                          id="card"
-                          className="w-[18px] h-[18px] appearance-none rounded-full border border-slate-400 bg-white focus:outline-blue-500
-                                              checked:ring-2 checked:ring-inset checked:ring-white checked:bg-blue-600
-                                              dark:checked:ring-neutral-900 dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-600"
-                          defaultChecked
-                        />
-                        <label
-                          htmlFor="card"
-                          className="ml-4 flex gap-2 cursor-pointer"
-                        >
-                          <img
-                            src="https://readymadeui.com/images/visa.webp"
-                            className="w-12"
-                            alt="visa"
-                          />
-                          <img
-                            src="https://readymadeui.com/images/american-express.webp"
-                            className="w-12"
-                            alt="american-express"
-                          />
-                          <img
-                            src="https://readymadeui.com/images/master.webp"
-                            className="w-12"
-                            alt="master"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                    <p className="mt-4 text-sm text-slate-500 font-medium">
-                      Pay with your debit or credit card
-                    </p>
-                  </div>
-                  <div className="bg-gray-100 p-4 rounded-md border border-slate-300 max-w-sm dark:bg-neutral-800 dark:border-neutral-700">
-                    <div>
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          name="method"
-                          id="paypal"
-                          className="w-[18px] h-[18px] appearance-none rounded-full border border-slate-400 bg-white focus:outline-blue-500
-                                              checked:ring-2 checked:ring-inset checked:ring-white checked:bg-blue-600
-                                              dark:checked:ring-neutral-900 dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-blue-600"
-                        />
-                        <label
-                          htmlFor="paypal"
-                          className="ml-4 flex gap-2 cursor-pointer"
-                        >
-                          <img
-                            src="https://readymadeui.com/images/paypal.webp"
-                            className="w-20"
-                            alt="paypalCard"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                    <p className="mt-4 text-sm text-slate-500 font-medium">
-                      Pay with your paypal account
-                    </p>
-                  </div>
-                </div>
+                <select name="" id="paymentMethod">
+                  <option value={PaymentMethod.Esewa}>Esewa</option>
+                  <option value={PaymentMethod.Khalti}>Khalti</option>
+                  <option value={PaymentMethod.Cod}>Cash on delivery</option>
+                </select>
+          
               </fieldset>
               {/* billing address checkbox */}
               <label className="inline-flex items-center group has-[input:checked]:text-slate-900 mt-6">
